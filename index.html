@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href=""/>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Muhammad Ayyub — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+
+
+/* âââââââââââââââââââââââââââââ
+   BASE â guaranteed green bg
+   ââââââââââââââââââââââââââââââââ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  min-height: 100%;
+  background: #03100a !important;   /* hard green-black, no variable needed */
+  color: #c8ffd8;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 90px;
+}
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ââââ CSS VARIABLES ââââ */
+:root {
+  --g: #00ff7f;
+  --g2: #39ff14;
+  --gold: #c8ff6a;
+  --bg: #03100a;
+  --card: rgba(0,255,127,0.04);
+  --border: rgba(0,255,127,0.16);
+  --text: #c8ffd8;
+  --dim: #3d7a52;
+}
+
+/* ââââ CANVAS ââââ */
+#bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+  background: #03100a;
+}
+
+/* ââââ PAGE WRAPPER ââââ */
+#app {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+/* ââââ NAV ââââ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 36px;
+  background: rgba(3,16,10,0.9);
+  border-bottom: 1px solid rgba(0,255,127,0.1);
+}
+.logo {
+  font-family: Arial Black, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #00ff7f;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 16px #00ff7f;
+}
+.nav-ul { display: flex; gap: 24px; list-style: none; }
+.nav-ul a {
+  font-size: 0.75rem;
+  color: #3d7a52;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color .25s;
+}
+.nav-ul a:hover { color: #00ff7f; }
+
+/* Hamburger */
+.burg {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+.burg span {
+  display: block; width: 22px; height: 2px;
+  background: #00ff7f; border-radius: 2px;
+  transition: all .3s;
+}
+.burg.o span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+.burg.o span:nth-child(2){ opacity: 0; }
+.burg.o span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile overlay menu */
+.mob {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(3,16,10,0.98);
+  z-index: 49;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.mob.o { display: flex; }
+.mob a {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #3d7a52;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .25s;
+}
+.mob a:hover, .mob a:active { color: #00ff7f; }
+.mobX {
+  position: absolute; top: 18px; right: 22px;
+  font-size: 0.7rem; color: #3d7a52; cursor: pointer; letter-spacing: .1em;
+  background: none; border: none; font-family: inherit;
+}
+
+@media(max-width:768px){
+  nav { padding: 13px 16px; }
+  .nav-ul { display: none; }
+  .burg { display: flex; }
+}
+
+/* ââââ SECTION WRAPPER ââââ */
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 36px 70px;
+}
+@media(max-width:600px){ .wrap { padding: 80px 16px 50px; } }
+
+/* ââââ SECTION HEADER ââââ */
+.sh {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 44px;
+}
+.sh-n { font-size: 0.62rem; color: #00ff7f; letter-spacing: .2em; }
+.sh-t {
+  font-family: Arial Black, sans-serif;
+  font-size: clamp(1.3rem,4vw,2.3rem);
+  font-weight: 900; color: #c8ffd8; letter-spacing: .05em;
+}
+.sh-l { flex:1; height:1px; background:linear-gradient(90deg,#00ff7f,transparent); max-width:180px; }
+@media(max-width:500px){ .sh-l{ display:none; } }
+
+/* ââââ HERO ââââ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 36px 60px;
+}
+@media(max-width:600px){ #hero{ padding: 100px 16px 50px; } }
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: .26em;
+  color: #00ff7f;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+  animation: fu .7s ease both .2s;
+}
+.eyebrow::before {
+  content:''; display:block; width:32px; height:1px;
+  background:#00ff7f; box-shadow:0 0 8px #00ff7f;
+}
+
+.hname {
+  font-family: Arial Black, sans-serif;
+  font-weight: 900; line-height: .95;
+  margin-bottom: 14px;
+  animation: fu .7s ease both .4s;
+}
+.n1 {
+  display: block;
+  font-size: clamp(2.8rem,10vw,7rem);
+  background: linear-gradient(130deg,#fff 0%,#00ff7f 55%,#00ffa3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.n2 {
+  display: block;
+  font-size: clamp(2.8rem,10vw,7rem);
+  color: #00ff7f;
+  animation: gp 4s ease-in-out infinite;
+}
+@keyframes gp {
+  0%,100%{ text-shadow:0 0 30px rgba(0,255,127,.3); }
+  50%    { text-shadow:0 0 60px rgba(57,255,20,.55), 0 0 100px rgba(0,255,127,.2); }
+}
+
+.hsub {
+  font-size: clamp(.7rem,1.6vw,.92rem);
+  color: #3d7a52; line-height: 2;
+  margin-bottom: 20px; letter-spacing: .07em;
+  animation: fu .7s ease both .6s;
+}
+.hsub .hl { color: #00ff7f; }
+
+/* POS badge */
+.pbadge {
+  display: inline-flex; align-items: center; gap: 11px;
+  border: 1px solid rgba(200,255,106,.26);
+  padding: 11px 18px; margin-bottom: 28px;
+  position: relative; overflow: hidden;
+  animation: fu .7s ease both .8s;
+}
+.pbadge::before {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(200,255,106,.08),transparent);
+  animation: sw 3s ease-in-out infinite 1.5s;
+}
+@keyframes sw{ 0%{left:-100%} 100%{left:100%} }
+.pb-d {
+  width:7px; height:7px; border-radius:50%;
+  background:#c8ff6a; box-shadow:0 0 10px #c8ff6a;
+  flex-shrink:0; animation:dp 1.4s ease-in-out infinite;
+}
+@keyframes dp{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.6);opacity:.6} }
+.pb-t { font-size:.63rem; letter-spacing:.09em; }
+.pb-t strong { color:#c8ff6a; font-size:.66rem; }
+.pb-t span { color:#3d7a52; }
+
+/* HERO BUTTONS */
+.cta { display:flex; gap:12px; flex-wrap:wrap; animation:fu .7s ease both 1s; }
+@media(max-width:500px){ .cta { flex-direction:column; gap:8px; } }
+
+.btn {
+  font-size:.65rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase;
+  padding:13px 24px; border-radius:2px;
+  text-decoration:none; display:inline-block;
+  text-align:center; cursor:pointer;
+  border:none; transition:all .28s; font-family:inherit;
+}
+.btn-g  { color:#00ff7f; border:1px solid #00ff7f; background:transparent; }
+.btn-g:hover,.btn-g:active  { background:#00ff7f; color:#03100a; box-shadow:0 0 28px rgba(0,255,127,.4); }
+.btn-au { color:#c8ff6a; border:1px solid rgba(200,255,106,.32); background:transparent; }
+.btn-au:hover,.btn-au:active { background:#c8ff6a; color:#03100a; box-shadow:0 0 28px rgba(200,255,106,.4); }
+.btn-gh { color:#3d7a52; border:1px solid rgba(255,255,255,.1); background:transparent; }
+.btn-gh:hover,.btn-gh:active { color:#c8ffd8; border-color:rgba(255,255,255,.28); }
+
+@keyframes fu{ from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+/* ââââ SKILLS ââââ */
+.sg {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:12px;
+}
+@media(max-width:550px){ .sg{ grid-template-columns:repeat(2,1fr); gap:9px; } }
+.sc {
+  background:rgba(0,255,127,0.03);
+  border:1px solid rgba(0,255,127,0.12);
+  padding:20px 14px; transition:all .3s;
+  position:relative; overflow:hidden;
+}
+.sc::before {
+  content:''; position:absolute; top:0;left:0;
+  width:3px; height:100%;
+  background:linear-gradient(180deg,#00ff7f,#39ff14);
+  transform:scaleY(0); transform-origin:top; transition:transform .32s;
+}
+.sc:hover,.sc:active {
+  border-color:rgba(0,255,127,.35);
+  background:rgba(0,255,127,.07);
+  transform:translateY(-4px);
+  box-shadow:0 14px 36px rgba(0,0,0,.5),0 0 22px rgba(0,255,127,.08);
+}
+.sc:hover::before,.sc:active::before { transform:scaleY(1); }
+.si { font-size:1.65rem; display:block; margin-bottom:9px; }
+.sn { font-size:.65rem; font-weight:700; letter-spacing:.1em; color:#c8ffd8; margin-bottom:3px; }
+.ss { font-size:.76rem; color:#3d7a52; }
+.sb { height:2px; background:rgba(255,255,255,.05); margin-top:9px; overflow:hidden; }
+.sf { height:100%; background:linear-gradient(90deg,#00ff7f,#39ff14); transform:scaleX(0); transform-origin:left; transition:transform .9s ease .1s; }
+.sc:hover .sf,.sc:active .sf { transform:scaleX(1); }
+
+/* ââââ PROJECTS ââââ */
+.pg { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:16px; }
+@media(max-width:550px){ .pg{ grid-template-columns:1fr; gap:10px; } }
+.pc {
+  background:rgba(0,255,127,.03); border:1px solid rgba(0,255,127,.1);
+  padding:26px; transition:all .32s;
+}
+.pc:hover,.pc:active {
+  border-color:rgba(0,255,127,.28); background:rgba(0,255,127,.06);
+  transform:translateY(-5px);
+  box-shadow:0 18px 42px rgba(0,0,0,.5),0 0 26px rgba(0,255,127,.07);
+}
+.pn { font-size:.58rem; color:#00ff7f; letter-spacing:.2em; margin-bottom:11px; opacity:.6; }
+.pt { font-size:.9rem; font-weight:700; color:#c8ffd8; margin-bottom:9px; letter-spacing:.03em; }
+.pd { font-size:.86rem; color:#3d7a52; line-height:1.75; margin-bottom:14px; }
+.tags { display:flex; gap:5px; flex-wrap:wrap; }
+.tag { font-size:.55rem; padding:3px 8px; border:1px solid rgba(0,255,127,.2); color:#00ff7f; letter-spacing:.07em; text-transform:uppercase; }
+
+/* ââââ ABOUT ââââ */
+.ag { display:grid; grid-template-columns:1fr 1fr; gap:52px; align-items:center; }
+@media(max-width:768px){ .ag{ grid-template-columns:1fr; gap:28px; } }
+.at { font-size:.9rem; color:#3d7a52; line-height:1.9; }
+.at p+p { margin-top:14px; }
+.at strong { color:#00ff7f; font-weight:600; }
+.sts { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+.st {
+  border:1px solid rgba(0,255,127,.13); padding:22px 14px; text-align:center;
+  background:rgba(0,255,127,.02); position:relative; overflow:hidden;
+}
+.st::before {
+  content:''; position:absolute; top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,#00ff7f,transparent);
+}
+.st-n { font-size:1.9rem; font-weight:900; color:#00ff7f; text-shadow:0 0 18px rgba(0,255,127,.3); display:block; }
+.st-l { font-size:.57rem; letter-spacing:.12em; color:#3d7a52; text-transform:uppercase; display:block; margin-top:3px; }
+
+/* ââââ POS ââââ */
+.posg { display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; }
+@media(max-width:768px){ .posg{ grid-template-columns:1fr; gap:24px; } }
+.posfg { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+@media(max-width:400px){ .posfg{ grid-template-columns:1fr; } }
+.pf {
+  background:rgba(0,255,127,.025); border:1px solid rgba(0,255,127,.1);
+  padding:15px; transition:all .28s;
+}
+.pf:hover,.pf:active { border-color:rgba(0,255,127,.3); background:rgba(0,255,127,.07); }
+.pfi { font-size:1.4rem; display:block; margin-bottom:5px; }
+.pft { font-size:.55rem; font-weight:700; color:#c8ff6a; letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px; }
+.pfd { font-size:.74rem; color:#3d7a52; line-height:1.5; }
+.pos-h { font-size:clamp(1.1rem,3vw,1.85rem); font-weight:900; color:#c8ffd8; margin-bottom:14px; line-height:1.2; }
+.pos-h span { color:#c8ff6a; }
+.pos-lbl {
+  font-size:.6rem; color:#c8ff6a; letter-spacing:.15em; margin-bottom:14px;
+  display:flex; align-items:center; gap:7px; text-transform:uppercase;
+}
+.pos-lbl::before {
+  content:''; display:block; width:7px; height:7px; border-radius:50%;
+  background:#c8ff6a; box-shadow:0 0 10px #c8ff6a;
+  animation:dp 1.5s ease-in-out infinite;
+}
+.pos-p { font-size:.88rem; color:#3d7a52; line-height:1.9; }
+.pos-p+.pos-p { margin-top:12px; }
+.pos-p strong { color:#c8ffd8; }
+.pos-suits { margin-top:22px; border:1px solid rgba(200,255,106,.1); padding:16px; background:rgba(200,255,106,.015); }
+.ps-h { font-size:.58rem; color:#c8ff6a; letter-spacing:.15em; margin-bottom:9px; text-transform:uppercase; }
+.ps-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.ps-t { font-size:.55rem; padding:3px 9px; border:1px solid rgba(200,255,106,.15); color:#3d7a52; letter-spacing:.07em; }
+
+/* ââââ CONTACT ââââ */
+.cont { display:flex; flex-direction:column; align-items:center; text-align:center; gap:26px; }
+.cb { font-size:clamp(1.6rem,5vw,3.4rem); font-weight:900; line-height:1.15; }
+.cb span { display:block; background:linear-gradient(135deg,#00ff7f,#39ff14); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.ci-list { display:flex; flex-direction:column; gap:13px; align-items:center; }
+.ci {
+  font-size:.9rem; color:#3d7a52; display:flex; align-items:center; gap:13px;
+  letter-spacing:.1em; text-decoration:none; transition:color .25s;
+}
+.ci:hover,.ci:active { color:#00ff7f; }
+.ci-ico {
+  width:36px; height:36px; border:1px solid rgba(0,255,127,.17);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem; transition:all .25s; flex-shrink:0;
+}
+.ci:hover .ci-ico,.ci:active .ci-ico { border-color:#00ff7f; background:rgba(0,255,127,.08); box-shadow:0 0 14px rgba(0,255,127,.2); }
+
+/* ââââ FOOTER ââââ */
+footer {
+  max-width:1100px; margin:0 auto;
+  padding:24px 36px;
+  border-top:1px solid rgba(0,255,127,.07);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+}
+@media(max-width:500px){ footer{ flex-direction:column; text-align:center; padding:20px 16px; } }
+footer p { font-size:.6rem; letter-spacing:.12em; color:#3d7a52; text-transform:uppercase; }
+.flogo { font-size:.85rem; font-weight:900; color:#00ff7f; opacity:.28; letter-spacing:.12em; }
+
+/* ââââ CAMERA HUD ââââ */
+#ehud {
+  position:fixed; top:68px; right:11px; z-index:60;
+  width:185px; background:rgba(3,16,10,.95);
+  border:1px solid rgba(0,255,127,.22); padding:12px;
+  transition:opacity .4s,transform .4s;
+  box-shadow:0 0 28px rgba(0,255,127,.07);
+}
+#ehud.hide { opacity:0; pointer-events:none; transform:translateX(16px); }
+.eh-r { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.eh-tit { font-size:.55rem; letter-spacing:.15em; color:#00ff7f; text-transform:uppercase; display:flex; align-items:center; gap:5px; }
+.eh-dot { width:6px; height:6px; border-radius:50%; background:#00ff7f; box-shadow:0 0 8px #00ff7f; animation:bk 1.2s ease-in-out infinite; }
+@keyframes bk{ 0%,100%{opacity:1}50%{opacity:.3} }
+#eh-x { font-size:.54rem; color:#3d7a52; cursor:pointer; padding:2px 6px; border:1px solid rgba(0,255,127,.13); transition:all .2s; background:none; font-family:inherit; }
+#eh-x:hover { color:#00ff7f; border-color:#00ff7f; }
+#eh-emo { font-size:2.4rem; display:block; text-align:center; margin:4px 0 5px; transition:all .5s; }
+#eh-lbl { font-size:.7rem; font-weight:700; color:#00ff7f; text-align:center; margin-bottom:6px; letter-spacing:.1em; transition:all .4s; }
+#eh-bw { height:2px; background:rgba(0,255,127,.1); overflow:hidden; margin-bottom:7px; }
+#eh-b { height:100%; background:linear-gradient(90deg,#00ff7f,#39ff14); width:0%; transition:width .7s; }
+#eh-m { font-size:.52rem; color:#3d7a52; text-align:center; line-height:1.6; min-height:2em; }
+#eh-e { font-size:.5rem; color:rgba(0,255,127,.38); text-align:center; margin-top:5px; }
+
+/* CAM PERMISSION NOTICE */
+#cam-notice {
+  position:fixed; bottom:70px; right:11px; z-index:60;
+  background:rgba(3,16,10,.95); border:1px solid rgba(0,255,127,.2);
+  padding:9px 13px; font-size:.55rem; color:#3d7a52;
+  letter-spacing:.1em; max-width:185px; line-height:1.6;
+  text-align:center;
+}
+#cam-notice.hide { display:none; }
+
+/* CAM BUTTON */
+#cbtn {
+  position:fixed; bottom:26px; right:11px; z-index:60;
+  font-size:.56rem; color:#00ff7f;
+  border:1px solid rgba(0,255,127,.28); background:rgba(3,16,10,.92);
+  padding:9px 12px; cursor:pointer; letter-spacing:.12em; text-transform:uppercase;
+  transition:all .28s; display:flex; align-items:center; gap:5px; font-family:inherit;
+}
+#cbtn:hover,#cbtn:active { border-color:#00ff7f; box-shadow:0 0 16px rgba(0,255,127,.2); }
+#cbtn.on { color:#3d7a52; border-color:rgba(0,255,127,.1); }
+@media(max-width:480px){ #cbtn{ bottom:16px; right:10px; font-size:.5rem; padding:7px 9px; } }
+
+/* HIDDEN VIDEO */
+#vid { position:fixed; bottom:-600px; right:-600px; width:1px; height:1px; opacity:0; pointer-events:none; }
+
+/* ââââ SMILE PROMPT ââââ */
+#smile-p {
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+  z-index:60; background:rgba(3,16,10,.96); border:1px solid rgba(0,255,127,.38);
+  border-radius:50px; padding:11px 26px;
+  display:flex; align-items:center; gap:11px;
+  box-shadow:0 0 28px rgba(0,255,127,.13);
+  opacity:0; pointer-events:none; transition:opacity .5s;
+}
+#smile-p.show { opacity:1; }
+.spe { font-size:1.5rem; animation:spb .7s ease-in-out infinite alternate; }
+@keyframes spb{ from{transform:translateY(0) rotate(-6deg)} to{transform:translateY(-5px) rotate(6deg)} }
+.spt { font-size:.68rem; color:#00ff7f; letter-spacing:.1em; text-shadow:0 0 10px #00ff7f; }
+.sps { font-size:1rem; animation:spin 2s linear infinite; }
+@keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+/* ââââ HAPPY BURST ââââ */
+#burst { position:fixed; inset:0; z-index:80; pointer-events:none; overflow:hidden; display:none; }
+#burst.on { display:block; }
+.cf { position:absolute; animation:cfall 2s ease-in forwards; }
+@keyframes cfall{ 0%{opacity:1;transform:translateY(-5px) rotate(0)} 100%{opacity:0;transform:translateY(110vh) rotate(720deg)} }
+#hr { position:fixed; top:50%; left:50%; width:160px; height:160px; border-radius:50%; border:3px solid #00ff7f; transform:translate(-50%,-50%) scale(0); pointer-events:none; z-index:81; opacity:0; box-shadow:0 0 28px #00ff7f; }
+#hr.b { animation:rb .9s ease-out forwards; }
+@keyframes rb{ 0%{transform:translate(-50%,-50%) scale(0);opacity:1} 100%{transform:translate(-50%,-50%) scale(5);opacity:0} }
+#ht { position:fixed; top:38%; left:50%; transform:translate(-50%,-50%) scale(0); z-index:82; pointer-events:none; opacity:0; font-family:Arial Black,sans-serif; font-weight:900; font-size:clamp(1.4rem,5vw,2.4rem); color:#00ff7f; text-shadow:0 0 28px #00ff7f,0 0 60px #39ff14; letter-spacing:.14em; }
+#ht.b { animation:tb 1.3s cubic-bezier(.175,.885,.32,1.275) forwards; }
+@keyframes tb{ 0%{transform:translate(-50%,-50%) scale(0);opacity:0} 30%{transform:translate(-50%,-50%) scale(1.2);opacity:1} 70%{transform:translate(-50%,-50%) scale(1);opacity:1} 100%{transform:translate(-50%,-50%) scale(1.1);opacity:0} }
+
+</style>
+</head>
+<body>
+<!-- CANVAS (pure green particle bg) -->
+<canvas id="bg"></canvas>
+<div id="app">
+<!-- NAV -->
+<nav>
+<a class="logo" href="#hero">Portfolio</a>
+<ul class="nav-ul">
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#pos" style="color:#c8ff6a">POS</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<button aria-label="Menu" class="burg" id="burg" onclick="openMob()">
+<span></span><span></span><span></span>
+</button>
+</nav>
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+<button class="mobX" onclick="closeMob()">[ CLOSE — ]</button>
+<a href="#skills" onclick="closeMob()">Skills</a>
+<a href="#projects" onclick="closeMob()">Projects</a>
+<a href="#about" onclick="closeMob()">About</a>
+<a href="#pos" onclick="closeMob()" style="color:#c8ff6a">POS Software</a>
+<a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+<!-- HIDDEN VIDEO (front cam) -->
+<video autoplay="" id="vid" muted="" playsinline=""></video>
+<!-- EMOTION HUD -->
+<div class="hide" id="ehud">
+<div class="eh-r">
+<div class="eh-tit"><div class="eh-dot"></div>EMOTION AI</div>
+<button id="eh-x" onclick="document.getElementById('ehud').classList.add('hide')">—</button>
+</div>
+<span id="eh-emo">😐</span>
+<div id="eh-lbl">READY</div>
+<div id="eh-bw"><div id="eh-b"></div></div>
+<div id="eh-m">Press button to start...</div>
+<div id="eh-e">👁️ EYE TRACKING</div>
+</div>
+<!-- CAM NOTICE -->
+<div id="cam-notice">
+  📷 Allow camera access<br/>when prompted for<br/>Face AI to work
+</div>
+<!-- SMILE PROMPT -->
+<div id="smile-p">
+<span class="spe">😊</span>
+<span class="spt">Please smile! 😄</span>
+<span class="sps">✨</span>
+</div>
+<!-- HAPPY BURST ELEMENTS -->
+<div id="burst"></div>
+<div id="hr"></div>
+<div id="ht">YOU SMILED! 😄</div>
+<!-- CAM BUTTON -->
+<button id="cbtn" onclick="startCam()">📷 Face AI</button>
+<!-- ââ HERO ââ -->
+<section id="hero">
+<div>
+<div class="eyebrow">// Full-Stack Developer &amp; Software Engineer</div>
+<div class="hname">
+<span class="n1">Ayyub</span>
+<span class="n2"></span>
+</div>
+<p class="hsub">
+      Building <span class="hl">intelligent systems</span> · Crafting <span class="hl">immersive experiences</span><br/>
+      Python · PHP · Three.js · PyQt6 · iOS Tools · WebGL
+    </p>
+<div class="pbadge">
+<div class="pb-d"></div>
+<div class="pb-t">
+<strong>POS Billing Software</strong>
+<span> — Custom &amp; Ready to Deploy</span>
+</div>
+</div>
+<div class="cta">
+<a class="btn btn-g" href="#projects">View Projects</a>
+<a class="btn btn-au" href="#pos">POS Software</a>
+<a class="btn btn-gh" href="#contact">Contact Me</a>
+</div>
+</div>
+</section>
+<!-- ââ SKILLS ââ -->
+<section id="skills">
+<div class="wrap">
+<div class="sh"><span class="sh-n">01 //</span><h2 class="sh-t">SKILLS</h2><div class="sh-l"></div></div>
+<div class="sg">
+<div class="sc"><span class="si">🐍</span><div class="sn">Python</div><div class="ss">Django · Flask · PyQt6</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">🐘</span><div class="sn">PHP</div><div class="ss">Laravel · WordPress</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">🌐</span><div class="sn">HTML / CSS</div><div class="ss">Semantic · Responsive</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">⚡</span><div class="sn">JavaScript</div><div class="ss">ES6+ · Node · React</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">🎨</span><div class="sn">Three.js</div><div class="ss">3D · WebGL · Shaders</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">🗄️</span><div class="sn">Databases</div><div class="ss">MySQL · Postgres · Mongo</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">🔧</span><div class="sn">Dev Tools</div><div class="ss">Git · Docker · Linux</div><div class="sb"><div class="sf"></div></div></div>
+<div class="sc"><span class="si">📱</span><div class="sn">iOS Tools</div><div class="ss">PyQt6 · Bypass Suite</div><div class="sb"><div class="sf"></div></div></div>
+</div>
+</div>
+</section>
+<!-- ââ PROJECTS ââ -->
+<section id="projects">
+<div class="wrap">
+<div class="sh"><span class="sh-n">02 //</span><h2 class="sh-t">PROJECTS</h2><div class="sh-l"></div></div>
+<div class="pg">
+<div class="pc"><div class="pn">PROJECT — 001</div><div class="pt">AI-Powered Web Platform</div><div class="pd">Full-stack app with Python backend, ML APIs, real-time data processing, and dynamic frontend dashboard.</div><div class="tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">React</span><span class="tag">PostgreSQL</span></div></div>
+<div class="pc"><div class="pn">PROJECT — 002</div><div class="pt">3D Interactive Showcase</div><div class="pd">Immersive Three.js product visualization with custom shaders, physics-based animations, WebGL rendering.</div><div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">GLSL</span><span class="tag">JS</span></div></div>
+<div class="pc"><div class="pn">PROJECT — 003</div><div class="pt">Enterprise CMS</div><div class="pd">Custom PHP/Laravel CMS with role-based access control, API integrations, multi-language support.</div><div class="tags"><span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">MySQL</span><span class="tag">REST API</span></div></div>
+<div class="pc"><div class="pn">PROJECT — 004</div><div class="pt">iOS Bypass Tool Suite</div><div class="pd">PyQt6 desktop app for iOS A5–A11 bypass and activation workflows, glassmorphism UI, server licensing.</div><div class="tags"><span class="tag">Python</span><span class="tag">PyQt6</span><span class="tag">iOS</span><span class="tag">Flask</span></div></div>
+<div class="pc"><div class="pn">PROJECT — 005</div><div	class="pt">Automation Suite</div>
+<div	class="pd">Python automation toolkit: scraping, pipelines, scheduled reporting, third-party API integrations.</div><div class="tags"><span class="tag">Python</span><span class="tag">Selenium</span><span class="tag">FastAPI</span><span class="tag">Docker</span></div></div>
+<div class="pc"><div class="pn">PROJECT — 006</div><div class="pt">Real-Time Dashboard</div><div class="pd">WebSocket analytics dashboard with live charts, configurable alerts, and multi-source data feeds.</div><div class="tags"><span class="tag">Node.js</span><span class="tag">WebSocket</span><span class="tag">Chart.js</span><span class="tag">MongoDB</span></div></div>
+
+</div>
+</div>
+</section>
+
+<!-- ââ ABOUT ââ -->
+<section id="about">
+<div class="wrap">
+<div class="sh"><span class="sh-n">03 //</span><h2 class="sh-t">ABOUT</h2><div class="sh-l"></div></div>
+<div class="ag">
+<div class="at">
+<p>I'm <strong>Muhammad Ayyub</strong> — a full-stack developer passionate about <strong>fast, intelligent, and visually stunning digital experiences</strong>.</p>
+<p>My stack spans Python/PHP backends to immersive frontends with <strong>Three.js and WebGL</strong>. I bridge engineering precision with creative design.</p>
+<p>Whether building scalable APIs, pixel-perfect interfaces, or <strong>iOS bypass tools with PyQt6</strong>, I bring full technical depth to every project.</p>
+<p>Based in Pakistan · Working worldwide · Available for freelance &amp; collaborations.</p>
+</div>
+<div class="sts">
+<div class="st"><span class="st-n">50+</span><span class="st-l">Projects</span></div>
+<div class="st"><span class="st-n">5+</span><span class="st-l">Years Exp.</span></div>
+<div class="st"><span class="st-n">8+</span><span class="st-l">Tech Stacks</span></div>
+<div class="st"><span class="st-n">100%</span><span class="st-l">Satisfaction</span></div>
+</div>
+</div>
+</div>
+</section>
+<!-- ââ POS ââ -->
+<section id="pos">
+<div class="wrap">
+<div class="sh">
+<span class="sh-n" style="color:#c8ff6a">04 //</span>
+<h2 class="sh-t" style="background:linear-gradient(135deg,#c8ff6a,#00ff7f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">POS SOFTWARE</h2>
+<div class="sh-l" style="background:linear-gradient(90deg,#c8ff6a,transparent)"></div>
+</div>
+<div class="posg">
+<div>
+<div class="pos-lbl">AVAILABLE NOW — CUSTOM DEPLOYMENT</div>
+<h3 class="pos-h">Professional Billing &amp;<br/><span>POS System</span></h3>
+<p class="pos-p">A complete production-ready <strong>Point of Sale &amp; Billing Software</strong> for retail shops, restaurants, pharmacies, and any business needing fast transaction management.</p>
+<p class="pos-p">Fully customizable to your name, logo, and workflow. Desktop (Windows/Linux) or web-based deployment.</p>
+<a class="btn btn-au" href="tel:+923281395802" style="margin-top:22px;display:inline-block">Order — +92 328 139 5802</a>
+<div class="pos-suits">
+<div class="ps-h">// Suitable For</div>
+<div class="ps-tags">
+<span class="ps-t">🧺 Retail</span>
+<span class="ps-t">🍽️ Restaurants</span>
+<span class="ps-t">💊 Pharmacies</span>
+<span class="ps-t">👕 Clothing</span>
+<span class="ps-t">🏪 Supermarkets</span>
+<span class="ps-t">🛠️ Hardware</span>
+<span class="ps-t">+ Any Business</span>
+</div>
+</div>
+</div>
+<div class="posfg">
+<div class="pf"><span class="pfi">🧾</span><div class="pft">Fast Billing</div><div class="pfd">Instant invoices, thermal printer support</div></div>
+<div class="pf"><span class="pfi">📦</span><div class="pft">Inventory</div><div class="pfd">Stock tracking &amp; low-stock alerts</div></div>
+<div class="pf"><span class="pfi">📊</span><div class="pft">Reports</div><div class="pfd">Daily, weekly, monthly analytics</div></div>
+<div class="pf"><span class="pfi">👥</span><div class="pft">Multi-User</div><div class="pfd">Admin, Cashier, Manager roles</div></div>
+<div class="pf"><span class="pfi">💰</span><div class="pft">Accounts</div><div class="pfd">Customer credit &amp; due management</div></div>
+<div class="pf"><span class="pfi">🎨</span><div class="pft">Custom Brand</div><div class="pfd">Your logo &amp; colors everywhere</div></div>
+</div>
+</div>
+</div>
+</section>
+<!-- ââ CONTACT ââ -->
+<section id="contact">
+<div class="wrap">
+<div class="cont">
+<div class="sh" style="justify-content:center"><span class="sh-n">05 //</span><h2 class="sh-t">CONTACT</h2></div>
+<div class="cb">Let's build something<span>extraordinary.</span></div>
+<div class="ci-list">
+<a class="ci" href="tel:+923281395802"><div class="ci-ico">📞</div>+92 328 139 5802</a>
+<a class="ci" href="mailto:mayyubkhan23@gmail.com"><div class="ci-ico">✉️</div>mayyubkhan23@gmail.com</a>
+</div>
+<a class="btn btn-g" href="tel:+923281395802">Start a Project</a>
+</div>
+</div>
+</section>
+<footer>
+<p>© 2025 Muhammad Ayyub. All rights reserved.</p>
+<div class="flogo">MA_</div>
+<p>Green · Face AI · Eye Tracking</p>
+</footer>
+</div><!-- #app -->
+<!-- ââââââââââââââââââââââââââââââââââ
+     JAVASCRIPT
+     ââââââââââââââââââââââââââââââââââ -->
+<script>
+
+/* ââ MENU ââ */
+function openMob(){ document.getElementById('burg').classList.add('o'); document.getElementById('mob').classList.add('o'); document.body.style.overflow='hidden'; }
+function closeMob(){ document.getElementById('burg').classList.remove('o'); document.getElementById('mob').classList.remove('o'); document.body.style.overflow=''; }
+
+/* ââ CANVAS BACKGROUND ââ
+   Pure canvas 2D â no library, guaranteed to work on mobile.
+   Draws on every frame but keeps it simple for performance.
+âââââââââââââââââââââââââââââââââââ */
+(function(){
+  const c = document.getElementById('bg');
+  const x = c.getContext('2d');
+  let W, H;
+
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* Particles */
+  const N = window.innerWidth < 600 ? 45 : 100;
+  const pts = [];
+  for(let i=0;i<N;i++){
+    pts.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx:(Math.random()-.5)*.18,
+      vy:(Math.random()-.5)*.18,
+      r: Math.random()*1.1+.3,
+      a: Math.random()*.55+.12,
+      g: Math.random()>.5
+    });
+  }
+
+  function frame(){
+    /* solid dark green bg â this guarantees no black screen */
+    x.fillStyle = '#03100a';
+    x.fillRect(0, 0, W, H);
+
+    /* subtle grid */
+    x.strokeStyle = 'rgba(0,180,90,0.022)';
+    x.lineWidth = .5;
+    for(let gx=0;gx<W;gx+=80){ x.beginPath();x.moveTo(gx,0);x.lineTo(gx,H);x.stroke(); }
+    for(let gy=0;gy<H;gy+=80){ x.beginPath();x.moveTo(0,gy);x.lineTo(W,gy);x.stroke(); }
+
+    /* particles */
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      x.beginPath();
+      x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle = p.g ? `rgba(0,255,127,${p.a})` : `rgba(57,255,20,${p.a})`;
+      x.fill();
+    });
+
+    /* connection lines (limit distance check for perf on mobile) */
+    const MAX = window.innerWidth<600 ? 60 : 85;
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=dx*dx+dy*dy;
+        if(d < MAX*MAX){
+          const dist=Math.sqrt(d);
+          x.strokeStyle=`rgba(0,255,127,${.13*(1-dist/MAX)})`;
+          x.lineWidth=.32;
+          x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);x.stroke();
+        }
+      }
+    }
+    setTimeout(() => requestAnimationFrame(frame), 16);
+  }
+  frame();
+})();
+
+/* ââ FACE AI (uses browser's built-in shape detection where available,
+   falls back to a camera-only mode with simulated emotion on mobile) ââ */
+
+/* We use face-api.js BUT with a fallback:
+   If models fail to load â still show camera feed + simulate emotions
+   so the HUD is never broken. */
+
+const vid    = document.getElementById('vid');
+const ehud   = document.getElementById('ehud');
+const eEmo   = document.getElementById('eh-emo');
+const eLbl   = document.getElementById('eh-lbl');
+const eBar   = document.getElementById('eh-b');
+const eMsg   = document.getElementById('eh-m');
+const eEye   = document.getElementById('eh-e');
+const smileP = document.getElementById('smile-p');
+const burstD = document.getElementById('burst');
+const hringD = document.getElementById('hr');
+const htxtD  = document.getElementById('ht');
+const cbtn   = document.getElementById('cbtn');
+const notice = document.getElementById('cam-notice');
+
+let camOn=false, apiReady=false, lastEmo='', bTimer=null, simTimer=null;
+
+const EMOS = {
+  happy:    {e:'😄',l:'HAPPY',    m:'Amazing! Keep smiling! 🌿',   c:'#00ff7f'},
+  sad:      {e:'😢',l:'SAD',      m:'Cheer up, you got this 🤗',    c:'#39aaff'},
+  angry:    {e:'😠',l:'ANGRY',    m:'Take a deep breath 🌬️',        c:'#ff4444'},
+  fearful:  {e:'😨',l:'FEARFUL',  m:"You're safe here 🛡️",          c:'#ff9900'},
+  disgusted:{e:'🤢',l:'DISGUSTED',m:'Haha, what did you see? 😄',  c:'#aaff44'},
+  surprised:{e:'😲',l:'SURPRISED',m:'Something amazing! 🚀',        c:'#ffcc00'},
+  neutral:  {e:'😐',l:'NEUTRAL',  m:'Show me your smile! 😊',       c:'#00ff7f'},
+};
+const EMO_KEYS = Object.keys(EMOS);
+
+function showSmile(){
+  smileP.classList.add('show');
+  setTimeout(()=>smileP.classList.remove('show'), 5200);
+}
+
+function triggerBurst(){
+  burstD.innerHTML=''; burstD.classList.add('on');
+  hringD.classList.remove('b'); htxtD.classList.remove('b');
+  const cols=['#00ff7f','#39ff14','#a8ff3e','#00ffa3','#c8ff6a','#ffffff'];
+  for(let i=0;i<70;i++){
+    const el=document.createElement('div'); el.className='cf';
+    el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*10-5}px;background:${cols[i%cols.length]};width:${5+Math.random()*9}px;height:${5+Math.random()*9}px;animation-delay:${Math.random()*.9}s;animation-duration:${1.3+Math.random()*1}s;border-radius:${Math.random()>.5?'50%':'2px'}`;
+    burstD.appendChild(el);
+  }
+  void hringD.offsetWidth; void htxtD.offsetWidth;
+  hringD.classList.add('b'); htxtD.classList.add('b');
+  clearTimeout(bTimer);
+  bTimer=setTimeout(()=>{ burstD.classList.remove('on'); burstD.innerHTML=''; hringD.classList.remove('b'); htxtD.classList.remove('b'); },2800);
+}
+
+function applyEmo(emo, conf, eyeX, eyeY){
+  const d = EMOS[emo]||EMOS.neutral;
+  eEmo.textContent = d.e;
+  eLbl.textContent = d.l;
+  eLbl.style.color = d.c;
+  eLbl.style.textShadow = `0 0 12px ${d.c}`;
+  eBar.style.width = (conf*100)+'%';
+  eBar.style.background = `linear-gradient(90deg,${d.c},#39ff14)`;
+  eMsg.textContent = d.m;
+  if(eyeX!==null) eEye.textContent = `👁 X:${eyeX}% Y:${eyeY}%`;
+  if(emo==='happy'&&conf>.45){
+    smileP.classList.remove('show');
+    if(lastEmo!=='happy') triggerBurst();
+  } else if(emo!=='happy'&&lastEmo==='happy'){
+    setTimeout(showSmile,6000);
+  }
+  lastEmo=emo;
+}
+
+/* â SIMULATION FALLBACK (when no face-api or no face detected) â */
+const SIM_SEQ = ['neutral','neutral','neutral','sad','neutral','surprised','happy','happy','neutral'];
+let simIdx=0;
+function startSim(){
+  clearInterval(simTimer);
+  eMsg.textContent='Camera active â no face detected';
+  simTimer = setInterval(()=>{
+    const k=SIM_SEQ[simIdx%SIM_SEQ.length];
+    applyEmo(k, .6+Math.random()*.35, Math.round(40+Math.random()*20), Math.round(40+Math.random()*20));
+    simIdx++;
+    if(k!=='happy' && simIdx%4===0) showSmile();
+  }, 2200);
+}
+
+/* â REAL DETECTION with face-api â */
+async function tryRealDetect(){
+  const MODEL = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights';
+  try{
+    eMsg.textContent = 'Loading AI models...';
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL),
+      faceapi.nets.faceExpressionNet.loadFromUri(MODEL),
+      faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL),
+    ]);
+    apiReady=true;
+    eMsg.textContent='AI ready!';
+    clearInterval(simTimer);
+    runReal();
+  }catch(err){
+    console.warn('face-api models failed, using simulation:', err);
+    eMsg.textContent='AI offline — simulation mode';
+    startSim();
+    setTimeout(showSmile, 3000);
+  }
+}
+
+async function runReal(){
+  const loop=async()=>{
+    if(!camOn||!apiReady) return;
+    try{
+      const res = await faceapi
+        .detectSingleFace(vid, new faceapi.TinyFaceDetectorOptions({inputSize:224,scoreThreshold:.35}))
+        .withFaceLandmarks(true)
+        .withFaceExpressions();
+      if(res){
+        const ex=res.expressions;
+        let top='neutral',best=0;
+        Object.entries(ex).forEach(([k,v])=>{ if(v>best){top=k;best=v;} });
+        const lm=res.landmarks;
+        const le=lm.getLeftEye(), re=lm.getRightEye();
+        const ex2=Math.round(((le[0].x+re[3].x)/2/vid.videoWidth)*100);
+        const ey2=Math.round(((le[0].y+re[3].y)/2/vid.videoHeight)*100);
+        applyEmo(top,best,ex2,ey2);
+      } else {
+        eEmo.textContent=':🔍';
+        eLbl.textContent='NO FACE';
+        eMsg.textContent='Move closer to camera';
+        eEye.textContent='👁 SEARCHING...';
+        lastEmo='';
+      }
+    }catch(e){ console.warn(e); }
+    setTimeout(loop, 420);
+  };
+  loop();
+}
+
+async function startCam(){
+  if(camOn) return;
+  cbtn.textContent='📡 Connecting...';
+  cbtn.disabled=true;
+  notice.classList.add('hide');
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video:{
+        facingMode:{ideal:'user'}, /* FRONT camera on mobile */
+        width:{ideal:320}, height:{ideal:240}, frameRate:{ideal:15}
+      },
+      audio:false
+    });
+    vid.srcObject=stream;
+    await vid.play();
+    camOn=true;
+    cbtn.textContent='ð¢ Face AI ON';
+    cbtn.classList.add('on');
+    ehud.classList.remove('hide');
+    eMsg.textContent='Camera connected!';
+    /* Try real AI, fallback to sim automatically */
+    tryRealDetect();
+    setTimeout(showSmile, 4500);
+  }catch(err){
+    cbtn.textContent='❌ Denied';
+    cbtn.disabled=false;
+    notice.textContent='⚠️ Camera was denied. Please allow camera access in browser settings.';
+    notice.classList.remove('hide');
+    console.error(err);
+  }
+}
+
+</script>
+<!-- Load face-api.js async â page works even if it fails -->
+<script async="" src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+</body>
+</html>
